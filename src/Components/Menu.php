@@ -33,11 +33,19 @@ class Menu extends Component {
 
             // Sinon on tente de charger le yaml
         } else {
+            $locale = app()->getLocale();
 
-            $yamlFilename = empty($name) ? '../config/menu.yml' : "../config/menu-$name.yml";
+            $baseFilename = empty($name) ? 'menu' : "menu-$name";
+            $localeFile = "../config/{$baseFilename}-{$locale}.yml";
+            $defaultFile = "../config/{$baseFilename}.yml";
 
-            if (!is_file($yamlFilename)) {
-                throw new \ErrorException("\JoliMardi\Menu : $yamlFilename introuvable. Ajouter l'attribut name=\"user\" pour charger /config/menu-user.yaml ou exécuter \"php artisan vendor:publish --provider=JoliMardi\Menu\MenuServiceProvider\" pour ajouter un menu.yaml d'exemple dans le dossier /config/");
+            // On predn d'abord le fichier avec la langue s'il existe, sans langue sinon
+            if (is_file($localeFile)) {
+                $yamlFile = $localeFile;
+            } elseif (is_file($defaultFile)) {
+                $yamlFile = $defaultFile;
+            } else {
+                throw new \ErrorException("\JoliMardi\Menu : Aucun fichier de menu trouvé. Recherche effectuée pour '{$localeFile}' et '{$defaultFile}'. Ajouter l'attribut name=\"user\" pour charger les menus spécifiques ou exécuter \"php artisan vendor:publish --provider=JoliMardi\Menu\MenuServiceProvider\" pour ajouter un menu.yml d'exemple dans le dossier /config/");
             }
             $menuArray = Yaml::parseFile($yamlFilename);
         }
