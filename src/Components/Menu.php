@@ -47,7 +47,7 @@ class Menu extends Component {
             } else {
                 throw new \ErrorException("\JoliMardi\Menu : Aucun fichier de menu trouvé. Recherche effectuée pour '{$localeFile}' et '{$defaultFile}'. Ajouter l'attribut name=\"user\" pour charger les menus spécifiques ou exécuter \"php artisan vendor:publish --provider=JoliMardi\Menu\MenuServiceProvider\" pour ajouter un menu.yml d'exemple dans le dossier /config/");
             }
-            $menuArray = Yaml::parseFile($yamlFilename);
+            $menuArray = Yaml::parseFile($yamlFile);
         }
 
         foreach ($menuArray as $routename => $menu_item_data) {
