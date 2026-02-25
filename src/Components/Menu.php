@@ -69,10 +69,13 @@ class Menu extends Component {
     }
 
 
-    public static function create_menu_link_form_array(string $routename, string|array $menu_item_data_array, int $level = 0): MenuLink {
+    public static function create_menu_link_form_array(string $routename, string|array $menu_item_data_array, int $level = 0): MenuLink|Separator {
 
         if (isset($menu_item_data_array['callback']) && is_callable($menu_item_data_array['callback'])) {
             $menu_item_data_array = call_user_func($menu_item_data_array['callback'], $menu_item_data_array);
+        }
+        if($routename == 'separator'){
+            return new Separator();
         }
 
         $title = self::extract_title($routename, $menu_item_data_array);
@@ -197,6 +200,12 @@ class Menu extends Component {
     }
 }
 
+
+class Separator extends Component {
+    public function render(): View|Closure|string {
+        return view('menu::components.menu-separator');
+    }
+}
 
 class MenuLink extends Component {
 

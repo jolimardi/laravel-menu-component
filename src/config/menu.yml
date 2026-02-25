@@ -42,6 +42,8 @@
 #      title: {Title}
 #      href: {url}
 #
+#  -- Separateur <hr> --#
+#  separator: true
 #
 #
 #  -- Callback pour preprocess le title ou autre --#
